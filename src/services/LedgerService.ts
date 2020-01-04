@@ -8,6 +8,13 @@ export interface LineItem {
     totalAmount: number
 }
 
+// used for date calculation
+const ONE_DAY = 1
+const ONE_WEEK = 7
+const TwO_WEEKS = 14
+const ONE_YEAR = 365
+
+
 export const generateLedger = ({
     start_date: startDate,
     end_date: endDate,
@@ -15,7 +22,6 @@ export const generateLedger = ({
     timezone,
     weekly_rent: weeklyRent,
 }: LedgerRequestDto) => {
-
     const getRuleOptions = (): Partial<Options> => {
         // set rule options.
         const ruleOptions: Partial<Options> = {
@@ -52,8 +58,12 @@ export const generateLedger = ({
         return ruleOptions
     }
 
-    // boundary dates are dates generated
-    const getBoundaryDates = (): Date[] => {
+    /*
+     * Boundary dates includes the start date, end date, and all payment dates in between.
+     * The dates are generated using the icalendar RRULE spec, implemented in the rrulejs library
+     * The endDate is added manually if it isn't added automatically added by the library (in cases where the line item is cut short)
+     * */
+    const getBoundaryDates = (): string[] => {
         // Create a ruleSet for the ledger dates
         const ruleSet = new RRuleSet()
         const ruleOptions = getRuleOptions()
@@ -62,14 +72,9 @@ export const generateLedger = ({
         const rule = new RRule(ruleOptions)
         ruleSet.rrule(rule)
 
+        const allRules = rule.all()
         // get the last date from the ruleSet
-        const generatedEndDate = DateTime.fromISO(
-            rule
-                .all()
-                .pop()
-                .toISOString(),
-            { zone: timezone },
-        )
+        const generatedEndDate = DateTime.fromISO(allRules[allRules.length - 1].toISOString(), { zone: timezone })
         const endDateWithTZ = DateTime.fromISO(endDate, { zone: timezone })
 
         // add endDate to ruleSet if the last-generated-date succeeds the endDate AND
@@ -78,65 +83,63 @@ export const generateLedger = ({
             ruleSet.rdate(new Date(endDate))
         }
 
-        console.log(ruleSet.all())
-        return ruleSet.all()
+        return ruleSet.all().map(date => DateTime.fromJSDate(date, {zone: timezone}).toISODate())
     }
 
-    const calculateRent = (start, end, frequency, weeklyRent) => {
-        const durationInDays = Interval.fromDateTimes(DateTime.fromJSDate(start), DateTime.fromJSDate(end)).count('days')
-        // const isMonthCutShort = () => Interval.fromDateTimes(DateTime.fromJSDate(start), DateTime.fromJSDate(end)).count('months') !== 1
-        const isMonthCutShort = DateTime.fromJSDate(getEndDay(start, frequency)).equals(DateTime.fromJSDate(end)) === false
-        // round to 2 decimal places
-        const roundAmount = (amount) => Math.round( ( amount + Number.EPSILON ) * 100 ) / 100
+    const calculateRent = (start: DateTime, end: DateTime, freq: Frequency, weeklyRent: number) => {
+        const durationInDays = Interval.fromDateTimes(start, end).count('days')
+        const isMonthCutShort = !(getEndDay(start, freq).toISODate() === end.toISODate())
+
+        // round to 2 decimal places. Number.EPSILON is used here to avoid issues with rounding to 2 decimal places.
+        const roundAmount = (amount: number) => Math.round((amount + Number.EPSILON) * 100) / 100
 
         let amount = 0
 
         // if item is cut-short use the formula => weeklyRent / 7 * numberOfDays
-        switch (frequency) {
+        switch (freq) {
             case Frequency.monthly:
-                amount = isMonthCutShort ? (weeklyRent / 7) * durationInDays : ((weeklyRent / 7) * 365) / 12
+                amount = isMonthCutShort ? (weeklyRent / ONE_WEEK) * durationInDays : ((weeklyRent / ONE_WEEK) * ONE_YEAR) / 12
                 break
             case Frequency.fortnightly:
-                amount = durationInDays === 14 ? weeklyRent * 2 : (weeklyRent / 7) * durationInDays
+                amount = durationInDays === TwO_WEEKS ? weeklyRent * 2 : (weeklyRent / ONE_WEEK) * durationInDays
                 break
             case Frequency.weekly:
-                amount = durationInDays === 7 ? weeklyRent : (weeklyRent / 7) * durationInDays
+                amount = durationInDays === ONE_WEEK ? weeklyRent : (weeklyRent / ONE_WEEK) * durationInDays
                 break
         }
         return roundAmount(amount)
     }
 
-    const getEndDay = (start, freq) => {
-        switch(freq) {
+    const getEndDay = (start: DateTime, freq: Frequency): DateTime => {
+        switch (freq) {
             case Frequency.fortnightly:
-                return DateTime.fromJSDate(start).plus({days: 13}).toJSDate()
+                return start.plus({ days: TwO_WEEKS - ONE_DAY })
             case Frequency.weekly:
-                return DateTime.fromJSDate(start).plus({days: 6}).toJSDate()
+                return start.plus({ days: ONE_WEEK - ONE_DAY })
             case Frequency.monthly:
-                return DateTime.fromJSDate(start).plus({months: 1}).minus({days: 1}).toJSDate()
+                return start.plus({ months: 1 }).minus({ days: ONE_DAY })
         }
     }
 
     const ledger = (): LineItem[] => {
         const boundaryDates = getBoundaryDates()
-        const ledgerDates: LineItem[] = boundaryDates.reduce((ledger, date, index) => {
-            // if ledger is not last element in list, startDate is current item, end date is next item.
+        const ledgerDates: LineItem[] = boundaryDates.reduce((ledger: LineItem[], date: string, index) => {
+
+            // exit if last item encountered
             if (index === boundaryDates.length - 1) return ledger
 
-            let start = DateTime.fromJSDate(date)
-                .toJSDate()
+            let start = DateTime.fromISO(date)
             let end = getEndDay(start, frequency)
 
             if (index === boundaryDates.length - 2) {
-                end = DateTime.fromJSDate(boundaryDates[boundaryDates.length - 1]).toJSDate()
+                end = DateTime.fromISO(boundaryDates[boundaryDates.length - 1])
             }
-
 
             return [
                 ...ledger,
                 {
-                    startDate: DateTime.fromJSDate(start).toISODate(),
-                    endDate: DateTime.fromJSDate(end).toISODate(),
+                    startDate: start.setZone(timezone).toISODate(),
+                    endDate: end.setZone(timezone).toISODate(),
                     totalAmount: calculateRent(start, end, frequency, weeklyRent),
                 },
             ]
