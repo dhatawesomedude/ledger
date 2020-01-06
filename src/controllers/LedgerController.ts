@@ -6,13 +6,19 @@ import { LedgerRequestDto } from '../dto/LedgerDto'
 @Service()
 @JsonController()
 export class LedgerController {
-
     @Get('/')
     public getAll() {
-        return [{a: 'a'}]
+        return {
+            message: 'This is a health check endpoint',
+            info: 'The ledger API can be found at /ledger',
+        }
     }
+
     @Get('/ledger')
-    public getLedger(@QueryParams() {start_date, end_date, frequency, timezone, weekly_rent}: LedgerRequestDto): LineItem[] {
-        return LedgerFactory({start_date, end_date, frequency, timezone, weekly_rent}).ledger
+    public getLedger(
+        // eslint-disable-next-line @typescript-eslint/camelcase,camelcase
+        @QueryParams() { start_date, end_date, frequency, timezone, weekly_rent }: LedgerRequestDto,
+    ): LineItem[] {
+        return LedgerFactory({ start_date, end_date, frequency, timezone, weekly_rent }).ledger
     }
 }

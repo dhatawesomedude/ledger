@@ -5,7 +5,7 @@ module.exports = {
         jest: true,
     },
     parserOptions: {
-        ecmaVersion: 2018,
+        ecmaVersion: 2019,
         sourceType: 'module',
     },
     extends: [
@@ -44,6 +44,7 @@ module.exports = {
                 allow: ['info', 'error'],
             },
         ],
+        'prettier/prettier': 'error',
         'newline-before-return': 'error',
         'no-use-before-define': ['error', { functions: false }],
         'require-atomic-updates': 'error',
@@ -70,6 +71,20 @@ module.exports = {
         'unicorn/filename-case': 'off',
         // This rule is too intrusive.
         'unicorn/prevent-abbreviations': 'off',
+        'import/extensions': [
+            'error',
+            'ignorePackages',
+            {
+                js: 'never',
+                jsx: 'never',
+                ts: 'never',
+                tsx: 'never',
+            },
+        ],
+        'consistent-return': 'warn',
+        'default-case': 'warn',
+        'unicorn/consistent-function-scoping': 'off',
+        'class-methods-use-this': 'off',
     },
     overrides: [
         {

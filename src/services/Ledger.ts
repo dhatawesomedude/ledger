@@ -22,7 +22,7 @@ export const LedgerFactory = ({
         // exit if last item encountered
         if (index === boundaryDates.length - 1) return ledger
 
-        let start = DateTime.fromISO(date)
+        const start = DateTime.fromISO(date)
         let end = getEndDay(start, frequency)
 
         if (index === boundaryDates.length - 2) {
@@ -40,9 +40,7 @@ export const LedgerFactory = ({
     }
 
     const ledger = (): LineItem[] => {
-        const ledgerDates: LineItem[] = boundaryDates.reduce(createLineItemsFromDates, [])
-
-        return ledgerDates
+        return boundaryDates.reduce(createLineItemsFromDates, [])
     }
 
     return {

@@ -1,15 +1,14 @@
-import { IsAlpha, IsBoolean, IsEnum, IsISO8601, IsNumber, IsPositive, IsString } from 'class-validator'
+import { IsEnum, IsISO8601, IsNumber, IsPositive } from 'class-validator'
 import { IsValidTimezone } from './validators/TimezoneValidator'
 import { IsDateBefore } from './validators/DateValidator'
-
+/* eslint-disable camelcase */
 export enum Frequency {
-    weekly = "weekly",
-    fortnightly = "fortnightly",
-    monthly = "monthly",
+    weekly = 'weekly',
+    fortnightly = 'fortnightly',
+    monthly = 'monthly',
 }
 
 export class LedgerRequestDto {
-
     @IsISO8601()
     @IsDateBefore('end_date')
     start_date!: string
@@ -26,5 +25,5 @@ export class LedgerRequestDto {
 
     @IsValidTimezone()
     timezone!: string
-
 }
+/* eslint-enable camelcase */

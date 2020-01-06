@@ -11,8 +11,8 @@ const PORT = 8080
 useContainer(Container)
 
 /*
-* Create a new express instance
-* */
+ * Create a new express instance
+ * */
 export const expressApp = createExpressServer({
     controllers: [LedgerController],
     classTransformer: true,
@@ -20,8 +20,8 @@ export const expressApp = createExpressServer({
 })
 
 /*
-* Start express app
-* */
+ * Start express app
+ * */
 expressApp.listen(PORT)
 
 console.info(`server is now listening on port ${PORT}`)

@@ -2,10 +2,11 @@
   "name": "ledger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.ts",
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly --inspect -- src/app.ts",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "lint": "eslint src --ext=ts --fix",
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,8 @@
     "multer": "^1.4.2",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.0",
-    "rrule": "^2.6.4"
+    "rrule": "^2.6.4",
+    "typedi": "^0.8.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -32,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-import-resolver-typescript": "^2.0.0",
@@ -50,7 +53,6 @@
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^5.20.1",
     "tslint-stylish": "^2.1.0",
-    "typedi": "^0.8.0",
     "typescript": "^3.7.4"
   }
 }

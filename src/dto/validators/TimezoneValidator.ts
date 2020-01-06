@@ -2,11 +2,11 @@ import { registerDecorator, ValidationArguments, ValidationOptions } from 'class
 import { DateTime } from 'luxon'
 
 export function IsValidTimezone(validationOptions?: ValidationOptions) {
-    return function(object: Object, propertyName: string) {
+    return function(object: Record<string, any>, propertyName: string) {
         registerDecorator({
             name: 'IsValidTimezone',
             target: object.constructor,
-            propertyName: propertyName,
+            propertyName,
             options: validationOptions,
             validator: {
                 validate(value) {

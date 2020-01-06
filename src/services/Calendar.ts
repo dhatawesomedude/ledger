@@ -1,19 +1,24 @@
 import RRule, { Options, RRuleSet } from 'rrule'
-import { Frequency } from '../dto/LedgerDto'
 import { DateTime } from 'luxon'
+import { Frequency } from '../dto/LedgerDto'
 
 // used for date calculation
 export const ONE_DAY = 1
 export const ONE_WEEK = 7
-export const TwO_WEEKS = 14
+export const TWO_WEEKS = 14
 export const ONE_YEAR = 365
 
 export interface Calendar {
-    boundaryDates: string[],
-    getEndDay: (start: DateTime, freq: Frequency) => DateTime,
+    boundaryDates: string[]
+    getEndDay: (start: DateTime, freq: Frequency) => DateTime
 }
 
-export const CalendarFactory = (startDate: string, endDate: string, frequency: Frequency, timezone: string): Calendar => {
+export const CalendarFactory = (
+    startDate: string,
+    endDate: string,
+    frequency: Frequency,
+    timezone: string,
+): Calendar => {
     const getRuleOptions = (): Partial<Options> => {
         // set rule options.
         const ruleOptions: Partial<Options> = {
@@ -23,13 +28,13 @@ export const CalendarFactory = (startDate: string, endDate: string, frequency: F
             until: new Date(endDate),
         }
 
-        /********************* Frequency. ********************************/
+        /** ******************* Frequency. ******************************* */
         // Fortnightly frequency is the same as weekly frequency with an interval of 2.
         // (the icalendar RFC spec does not specify a fortnightly frequency) - https://tools.ietf.org/html/rfc5545
         if (frequency === Frequency.monthly) ruleOptions.freq = RRule.MONTHLY
         else if (frequency === Frequency.fortnightly) ruleOptions.interval = 2
 
-        /********************* Fallback for skipped dates. ********************************/
+        /** ******************* Fallback for skipped dates. ******************************* */
         // if day is 31st, fall back to the last valid day of the month.
         if (DateTime.fromISO(startDate, { zone: timezone }).day === 31) {
             ruleOptions.bymonthday = [28, 29, 30, 31]
@@ -74,13 +79,13 @@ export const CalendarFactory = (startDate: string, endDate: string, frequency: F
             ruleSet.rdate(new Date(endDate))
         }
 
-        return ruleSet.all().map(date => DateTime.fromJSDate(date, {zone: timezone}).toISODate())
+        return ruleSet.all().map(date => DateTime.fromJSDate(date, { zone: timezone }).toISODate())
     }
 
     const getEndDay = (start: DateTime, freq: Frequency) => {
         switch (freq) {
             case Frequency.fortnightly:
-                return start.plus({ days: TwO_WEEKS - ONE_DAY })
+                return start.plus({ days: TWO_WEEKS - ONE_DAY })
             case Frequency.weekly:
                 return start.plus({ days: ONE_WEEK - ONE_DAY })
             case Frequency.monthly:
@@ -89,7 +94,7 @@ export const CalendarFactory = (startDate: string, endDate: string, frequency: F
     }
 
     return {
-        get boundaryDates () {
+        get boundaryDates() {
             return getBoundaryDates()
         },
         getEndDay,

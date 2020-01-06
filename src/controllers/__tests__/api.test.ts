@@ -11,8 +11,9 @@ const ledgerRequest: LedgerRequestDto = {
 }
 
 const getRequestURL = (requestObject: LedgerRequestDto) => {
-    const { start_date, end_date, frequency, timezone, weekly_rent } = requestObject
-    return `/ledger?end_date=${end_date}&start_date=${start_date}&weekly_rent=${weekly_rent}&frequency=${frequency}&timezone=${timezone}`
+    const { start_date: startDate, end_date: endDate, frequency, timezone, weekly_rent: weeklyRent } = requestObject
+
+    return `/ledger?end_date=${endDate}&start_date=${startDate}&weekly_rent=${weeklyRent}&frequency=${frequency}&timezone=${timezone}`
 }
 
 describe('/GET ledger', () => {
