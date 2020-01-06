@@ -18,7 +18,7 @@ export const LedgerFactory = ({
 }: LedgerRequestDto) => {
     const { boundaryDates, getEndDay } = CalendarFactory(startDate, endDate, frequency, timezone)
 
-    const reduceLedgerDatesFn = (ledger: LineItem[], date: string, index: number) => {
+    const createLineItemsFromDates = (ledger: LineItem[], date: string, index: number) => {
         // exit if last item encountered
         if (index === boundaryDates.length - 1) return ledger
 
@@ -40,7 +40,7 @@ export const LedgerFactory = ({
     }
 
     const ledger = (): LineItem[] => {
-        const ledgerDates: LineItem[] = boundaryDates.reduce(reduceLedgerDatesFn, [])
+        const ledgerDates: LineItem[] = boundaryDates.reduce(createLineItemsFromDates, [])
 
         return ledgerDates
     }

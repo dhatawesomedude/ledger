@@ -2,7 +2,7 @@ import { LedgerFactory } from '../Ledger'
 import { Frequency } from '../../dto/LedgerDto'
 
 describe('ledger service', () => {
-    it('We should have the right data for weekly', () => {
+    it('should have the right data for weekly', () => {
         const ledger = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
@@ -61,7 +61,7 @@ describe('ledger service', () => {
         )
     })
 
-    it('We should have the right data for fortnightly', () => {
+    it('it should have the right data for fortnightly', () => {
         const ledger = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
@@ -100,7 +100,7 @@ describe('ledger service', () => {
         )
     })
 
-    it('We should have the right data for monthly', () => {
+    it('it should have the right data for monthly', () => {
         const ledger = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
