@@ -28,8 +28,8 @@ The app is a 2 layer architecture that consists of:
 
 #### Business Logic
 
-The core of the business rules(the calendar factory) is based on [rrulejs](https://github.com/jakubroztocil/rrule) which is a js implementation of [RRULE icalendar spec](https://tools.ietf.org/html/rfc5545)
-The rrule library includes some limitations([seen here](https://github.com/jakubroztocil/rrule/issues/114)), which have been fixed in the [RSCALE spec](https://tools.ietf.org/html/rfc7529) however
+The core of the business rules(the calendar factory) is based on [rrulejs](https://github.com/jakubroztocil/rrule) which is a js implementation of [RRULE icalendar spec](https://tools.ietf.org/html/rfc5545).
+The rrulejs library includes some limitations([seen here](https://github.com/jakubroztocil/rrule/issues/114)), which have been fixed in the [RSCALE spec](https://tools.ietf.org/html/rfc7529) unfortunately
 I was unable to find a js library that implements this spec and I ended up fixing up the limitations manually.
 
 #### Server logic
