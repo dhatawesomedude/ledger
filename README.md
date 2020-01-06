@@ -24,9 +24,9 @@ The app is a 2 layer architecture that consists of:
     -   Validators: Decorators implemented using [class-validator](https://github.com/typestack/class-validator)
 -   Services: Functions, and factories that manage business logic and use-cases.
 
-###Main Dependencies
+### Main Dependencies
 
-####Business Logic
+#### Business Logic
 
 The core of the business rules(the calendar factory) is based on [rrulejs](https://github.com/jakubroztocil/rrule) which is a js implementation of [RRULE icalendar spec](https://tools.ietf.org/html/rfc5545)
 The rrule library includes some limitations([seen here](https://github.com/jakubroztocil/rrule/issues/114)), which have been fixed in the [RSCALE spec](https://tools.ietf.org/html/rfc7529) however
