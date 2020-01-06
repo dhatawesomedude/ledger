@@ -11,12 +11,13 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "build",
-    "rootDir": "server",
+    "rootDir": "src",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "strict": true
   },
   "exclude": [
     "web",

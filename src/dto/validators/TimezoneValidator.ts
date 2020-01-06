@@ -2,20 +2,20 @@ import { registerDecorator, ValidationArguments, ValidationOptions } from 'class
 import { DateTime } from 'luxon'
 
 export function IsValidTimezone(validationOptions?: ValidationOptions) {
-    return function (object: Object, propertyName: string) {
+    return function(object: Object, propertyName: string) {
         registerDecorator({
-            name: "IsValidTimezone",
+            name: 'IsValidTimezone',
             target: object.constructor,
             propertyName: propertyName,
             options: validationOptions,
             validator: {
-                validate(value: string) {
+                validate(value) {
                     return value && typeof value === 'string' && DateTime.local().setZone(value).isValid
                 },
                 defaultMessage(args: ValidationArguments) {
-                    return "Text ($value) is not a valid timezone!";
+                    return 'Text ($value) is not a valid timezone!'
                 },
-            }
-        });
-    };
+            },
+        })
+    }
 }

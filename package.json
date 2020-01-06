@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpileOnly --inspect -- src/app.ts"
+    "start": "ts-node-dev --respawn --transpileOnly --inspect -- src/app.ts",
+    "test": "yarn jest"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "@types/luxon": "^1.21.0",
     "@types/multer": "^1.3.10",
     "@types/node": "^13.1.2",
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "babel-eslint": "^10.0.3",
@@ -42,6 +44,7 @@
     "jest": "^24.9.0",
     "jest-environment-node": "^24.9.0",
     "prettier": "^1.19.1",
+    "supertest": "^4.0.2",
     "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
     "ts-node-dev": "^1.0.0-pre.44",

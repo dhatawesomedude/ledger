@@ -13,7 +13,7 @@ useContainer(Container)
 /*
 * Create a new express instance
 * */
-const expressApp = createExpressServer({
+export const expressApp = createExpressServer({
     controllers: [LedgerController],
     classTransformer: true,
     validation: true,

@@ -1,27 +1,19 @@
 import RRule, { Options, RRuleSet } from 'rrule'
-import { DateTime, Interval } from 'luxon'
-import { Frequency, LedgerRequestDto } from '../dto/LedgerDto'
-
-export interface LineItem {
-    startDate: string
-    endDate: string
-    totalAmount: number
-}
+import { Frequency } from '../dto/LedgerDto'
+import { DateTime } from 'luxon'
 
 // used for date calculation
-const ONE_DAY = 1
-const ONE_WEEK = 7
-const TwO_WEEKS = 14
-const ONE_YEAR = 365
+export const ONE_DAY = 1
+export const ONE_WEEK = 7
+export const TwO_WEEKS = 14
+export const ONE_YEAR = 365
 
+export interface Calendar {
+    boundaryDates: string[],
+    getEndDay: (start: DateTime, freq: Frequency) => DateTime,
+}
 
-export const generateLedger = ({
-    start_date: startDate,
-    end_date: endDate,
-    frequency,
-    timezone,
-    weekly_rent: weeklyRent,
-}: LedgerRequestDto) => {
+export const CalendarFactory = (startDate: string, endDate: string, frequency: Frequency, timezone: string): Calendar => {
     const getRuleOptions = (): Partial<Options> => {
         // set rule options.
         const ruleOptions: Partial<Options> = {
@@ -29,7 +21,6 @@ export const generateLedger = ({
             interval: 1,
             dtstart: new Date(startDate),
             until: new Date(endDate),
-            tzid: timezone,
         }
 
         /********************* Frequency. ********************************/
@@ -40,17 +31,17 @@ export const generateLedger = ({
 
         /********************* Fallback for skipped dates. ********************************/
         // if day is 31st, fall back to the last valid day of the month.
-        if (DateTime.fromISO(startDate).day === 31) {
+        if (DateTime.fromISO(startDate, { zone: timezone }).day === 31) {
             ruleOptions.bymonthday = [28, 29, 30, 31]
             ruleOptions.bysetpos = -1
         }
         // if day is 30th, fall back to the 28th or 29th (for leap year) in February.
-        else if (DateTime.fromISO(startDate).day === 30) {
+        else if (DateTime.fromISO(startDate, { zone: timezone }).day === 30) {
             ruleOptions.bymonthday = [28, 29, 30]
             ruleOptions.bysetpos = -1
         }
         // if day is 29th, fall back to the 28th in non-leap-year in February
-        else if (DateTime.fromISO(startDate).day === 29) {
+        else if (DateTime.fromISO(startDate, { zone: timezone }).day === 29) {
             ruleOptions.bymonthday = [28, 29]
             ruleOptions.bysetpos = -1
         }
@@ -86,31 +77,7 @@ export const generateLedger = ({
         return ruleSet.all().map(date => DateTime.fromJSDate(date, {zone: timezone}).toISODate())
     }
 
-    const calculateRent = (start: DateTime, end: DateTime, freq: Frequency, weeklyRent: number) => {
-        const durationInDays = Interval.fromDateTimes(start, end).count('days')
-        const isMonthCutShort = !(getEndDay(start, freq).toISODate() === end.toISODate())
-
-        // round to 2 decimal places. Number.EPSILON is used here to avoid issues with rounding to 2 decimal places.
-        const roundAmount = (amount: number) => Math.round((amount + Number.EPSILON) * 100) / 100
-
-        let amount = 0
-
-        // if item is cut-short use the formula => weeklyRent / 7 * numberOfDays
-        switch (freq) {
-            case Frequency.monthly:
-                amount = isMonthCutShort ? (weeklyRent / ONE_WEEK) * durationInDays : ((weeklyRent / ONE_WEEK) * ONE_YEAR) / 12
-                break
-            case Frequency.fortnightly:
-                amount = durationInDays === TwO_WEEKS ? weeklyRent * 2 : (weeklyRent / ONE_WEEK) * durationInDays
-                break
-            case Frequency.weekly:
-                amount = durationInDays === ONE_WEEK ? weeklyRent : (weeklyRent / ONE_WEEK) * durationInDays
-                break
-        }
-        return roundAmount(amount)
-    }
-
-    const getEndDay = (start: DateTime, freq: Frequency): DateTime => {
+    const getEndDay = (start: DateTime, freq: Frequency) => {
         switch (freq) {
             case Frequency.fortnightly:
                 return start.plus({ days: TwO_WEEKS - ONE_DAY })
@@ -121,36 +88,10 @@ export const generateLedger = ({
         }
     }
 
-    const ledger = (): LineItem[] => {
-        const boundaryDates = getBoundaryDates()
-        const ledgerDates: LineItem[] = boundaryDates.reduce((ledger: LineItem[], date: string, index) => {
-
-            // exit if last item encountered
-            if (index === boundaryDates.length - 1) return ledger
-
-            let start = DateTime.fromISO(date)
-            let end = getEndDay(start, frequency)
-
-            if (index === boundaryDates.length - 2) {
-                end = DateTime.fromISO(boundaryDates[boundaryDates.length - 1])
-            }
-
-            return [
-                ...ledger,
-                {
-                    startDate: start.setZone(timezone).toISODate(),
-                    endDate: end.setZone(timezone).toISODate(),
-                    totalAmount: calculateRent(start, end, frequency, weeklyRent),
-                },
-            ]
-        }, [])
-
-        return ledgerDates
-    }
-
     return {
-        get ledger() {
-            return ledger()
+        get boundaryDates () {
+            return getBoundaryDates()
         },
+        getEndDay,
     }
 }
