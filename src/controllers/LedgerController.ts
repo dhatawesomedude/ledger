@@ -7,8 +7,6 @@ import { LedgerRequestDto } from '../dto/LedgerDto'
 @JsonController()
 export class LedgerController {
 
-    public constructor() {
-    }
     @Get('/')
     public getAll() {
         return [{a: 'a'}]
