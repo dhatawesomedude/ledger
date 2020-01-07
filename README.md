@@ -34,7 +34,7 @@ I was unable to find a js library that implements this spec and I ended up fixin
 
 All of the date manipulation is done using the [luxon library](https://moment.github.io/luxon/).
 
-#### Server logic
+#### Server
 
 The server is based on expressjs and [routing controllers](https://github.com/typestack/routing-controllers).
 In addition to these 2, I've used the following libraries.
@@ -42,9 +42,12 @@ In addition to these 2, I've used the following libraries.
 -   typedi for dependency management - https://github.com/typestack/typedi
 -   class-validator for input validation - https://github.com/typestack/class-validator
 
-#### Tests
-There are 2 layers of tests.
-- API test `(controllers/__tests__)`: Which tests things to do with request, response, and validation. 
+### Tests
+
+Tests are implemented in [jest](https://jestjs.io/)
+
+There are 2 tiers of tests (with some overlap).
+- API test `(controllers/__tests__)`: Which tests things to do with routing, request, response, and validation.
 - unit/Use-case/business-logic tests `(services/__tests__)` : tests for various use cases. Most of the use-cases from the spec are handled in the rent and calendar tests(`rent.test.ts` and `calendar.test.ts`) as all of the logic exists there.
 
 ### This section is still being edited.
