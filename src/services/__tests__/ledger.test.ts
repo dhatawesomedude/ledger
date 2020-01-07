@@ -1,7 +1,7 @@
 import { LedgerFactory } from '../Ledger'
 import { Frequency } from '../../dto/LedgerDto'
 
-describe('ledger service', () => {
+describe('ledger', () => {
     it('should have the right data for weekly', () => {
         const { ledger } = LedgerFactory({
             start_date: '2020-03-28',

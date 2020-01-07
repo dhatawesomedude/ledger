@@ -2,6 +2,7 @@ import { DateTime, Interval } from 'luxon'
 import { Frequency } from '../dto/LedgerDto'
 import { Calendar, ONE_WEEK, ONE_YEAR, TWO_WEEKS } from './Calendar'
 
+// Calculates rental amount for a given period (rounded to 2 decimal places).
 export const calculateRent = (
     start: DateTime,
     end: DateTime,
