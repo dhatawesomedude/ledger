@@ -26,6 +26,7 @@ export const CalendarFactory = (
             interval: 1,
             dtstart: new Date(startDate),
             until: new Date(endDate),
+            tzid: timezone,
         }
 
         /** ******************* Frequency. ******************************* */
@@ -36,17 +37,17 @@ export const CalendarFactory = (
 
         /** ******************* Fallback for skipped dates. ******************************* */
         // if day is 31st, fall back to the last valid day of the month.
-        if (DateTime.fromISO(startDate, { zone: timezone }).day === 31) {
+        if (DateTime.fromISO(startDate).day === 31) {
             ruleOptions.bymonthday = [28, 29, 30, 31]
             ruleOptions.bysetpos = -1
         }
         // if day is 30th, fall back to the 28th or 29th (for leap year) in February.
-        else if (DateTime.fromISO(startDate, { zone: timezone }).day === 30) {
+        else if (DateTime.fromISO(startDate).day === 30) {
             ruleOptions.bymonthday = [28, 29, 30]
             ruleOptions.bysetpos = -1
         }
         // if day is 29th, fall back to the 28th in non-leap-year in February
-        else if (DateTime.fromISO(startDate, { zone: timezone }).day === 29) {
+        else if (DateTime.fromISO(startDate).day === 29) {
             ruleOptions.bymonthday = [28, 29]
             ruleOptions.bysetpos = -1
         }
@@ -70,8 +71,8 @@ export const CalendarFactory = (
 
         const allRules = rule.all()
         // get the last date from the ruleSet
-        const generatedEndDate = DateTime.fromISO(allRules[allRules.length - 1].toISOString(), { zone: timezone })
-        const endDateWithTZ = DateTime.fromISO(endDate, { zone: timezone })
+        const generatedEndDate = DateTime.fromISO(allRules[allRules.length - 1].toISOString())
+        const endDateWithTZ = DateTime.fromISO(endDate)
 
         // add endDate to ruleSet if the last-generated-date succeeds the endDate AND
         // the last-generated-date does not equal the endDate i.e. they are not the same day
@@ -79,7 +80,7 @@ export const CalendarFactory = (
             ruleSet.rdate(new Date(endDate))
         }
 
-        return ruleSet.all().map(date => DateTime.fromJSDate(date, { zone: timezone }).toISODate())
+        return ruleSet.all().map(date => DateTime.fromJSDate(date).toISODate())
     }
 
     const getEndDay = (start: DateTime, freq: Frequency) => {

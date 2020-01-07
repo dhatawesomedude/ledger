@@ -32,8 +32,14 @@ export const LedgerFactory = ({
         return [
             ...ledger,
             {
-                startDate: start.setZone(timezone).toISODate(),
-                endDate: end.setZone(timezone).toISODate(),
+                startDate: start
+                    .setZone(timezone)
+                    .startOf('day')
+                    .toISO(),
+                endDate: end
+                    .setZone(timezone)
+                    .endOf('day')
+                    .toISO(),
                 totalAmount: calculateRent(start, end, getEndDay, frequency, weeklyRent),
             },
         ]
