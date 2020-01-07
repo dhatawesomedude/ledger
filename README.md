@@ -40,13 +40,16 @@ In addition to these 2, I've used the following libraries.
 -   typedi for dependency management - https://github.com/typestack/typedi
 -   class-validator for input validation - https://github.com/typestack/class-validator
 
-### This section is still being edited.
-
-#### Test strategy.
+#### Tests
+There are 2 layers of tests.
+- API test `(controllers/__tests__)`: Which tests things to do with request, response, and validation. 
+- unit/Use-case/business-logic tests `(services/__tests__)` : tests for various use cases. Most of the use-cases from the spec are handled in the rent and calendar tests(`rent.test.ts` and `calendar.test.ts`) as all of the logic exists there.
 
 -   inline interfaces for request data interface and dto files for response interface
 -   If the timezone is invalid, it defaults to UTC.
 -   date manipulation done using luxon
+
+### This section is still being edited.
 
 # Spec
 
@@ -64,8 +67,3 @@ In addition to these 2, I've used the following libraries.
     -   start_date ISO string
     -   end_date ISO string
     -   amount Number
-
--   test cases - response sent in UTC ? - request dates in valid format - all response dates must be within the min and max (request start and end dates) - weekly payment frequency every 7 days - the end date must be the last date - fortnightly payment frequency every 24 days - monthly - the same day every month - start date does not exist => should use the next closes day for any month where the date doesn't exist. -
-    fortnightly - freq=weekly | interval=2
-    weekly - freq=weekly
-    monthly - freq=monthly
