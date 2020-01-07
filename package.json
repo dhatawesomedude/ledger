@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly --inspect -- src/app.ts",
     "test": "yarn jest",
-    "lint": "eslint src --ext=ts --fix",
+    "lint": "eslint src --ext=ts --fix"
   },
   "keywords": [],
   "author": "",
