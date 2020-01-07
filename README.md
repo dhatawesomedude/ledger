@@ -32,6 +32,8 @@ The core of the business rules(the calendar factory) is based on [rrulejs](https
 The rrulejs library includes some limitations([seen here](https://github.com/jakubroztocil/rrule/issues/114)), which have been fixed in the [RSCALE spec](https://tools.ietf.org/html/rfc7529) unfortunately
 I was unable to find a js library that implements this spec and I ended up fixing up the limitations manually.
 
+All of the date manipulation is done using the [luxon library](https://moment.github.io/luxon/).
+
 #### Server logic
 
 The server is based on expressjs and [routing controllers](https://github.com/typestack/routing-controllers).
@@ -45,11 +47,11 @@ There are 2 layers of tests.
 - API test `(controllers/__tests__)`: Which tests things to do with request, response, and validation. 
 - unit/Use-case/business-logic tests `(services/__tests__)` : tests for various use cases. Most of the use-cases from the spec are handled in the rent and calendar tests(`rent.test.ts` and `calendar.test.ts`) as all of the logic exists there.
 
+### This section is still being edited.
+
 -   inline interfaces for request data interface and dto files for response interface
 -   If the timezone is invalid, it defaults to UTC.
 -   date manipulation done using luxon
-
-### This section is still being edited.
 
 # Spec
 
