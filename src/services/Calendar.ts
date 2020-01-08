@@ -79,6 +79,7 @@ export const CalendarFactory = (
             ruleSet.rdate(new Date(endDate))
         }
 
+        // convert JS Date to luxon ISODate
         return ruleSet.all().map(date => DateTime.fromJSDate(date).toISODate())
     }
 
