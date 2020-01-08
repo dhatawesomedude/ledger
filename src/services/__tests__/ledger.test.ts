@@ -13,48 +13,48 @@ describe('ledger', () => {
         expect(ledger).toEqual(
             expect.arrayContaining([
                 {
-                    startDate: '2020-03-28',
-                    endDate: '2020-04-03',
+                    endDate: '2020-04-03T23:59:59.999+11:00',
+                    startDate: '2020-03-28T00:00:00.000+11:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-04-04',
-                    endDate: '2020-04-10',
+                    endDate: '2020-04-10T23:59:59.999+10:00',
+                    startDate: '2020-04-04T00:00:00.000+11:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-04-11',
-                    endDate: '2020-04-17',
+                    endDate: '2020-04-17T23:59:59.999+10:00',
+                    startDate: '2020-04-11T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-04-18',
-                    endDate: '2020-04-24',
+                    endDate: '2020-04-24T23:59:59.999+10:00',
+                    startDate: '2020-04-18T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-04-25',
-                    endDate: '2020-05-01',
+                    endDate: '2020-05-01T23:59:59.999+10:00',
+                    startDate: '2020-04-25T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-05-02',
-                    endDate: '2020-05-08',
+                    endDate: '2020-05-08T23:59:59.999+10:00',
+                    startDate: '2020-05-02T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-05-09',
-                    endDate: '2020-05-15',
+                    endDate: '2020-05-15T23:59:59.999+10:00',
+                    startDate: '2020-05-09T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-05-16',
-                    endDate: '2020-05-22',
+                    endDate: '2020-05-22T23:59:59.999+10:00',
+                    startDate: '2020-05-16T00:00:00.000+10:00',
                     totalAmount: 555,
                 },
                 {
-                    startDate: '2020-05-23',
-                    endDate: '2020-05-27',
+                    endDate: '2020-05-27T23:59:59.999+10:00',
+                    startDate: '2020-05-23T00:00:00.000+10:00',
                     totalAmount: 396.43,
                 },
             ]),
@@ -72,28 +72,28 @@ describe('ledger', () => {
         expect(ledger).toEqual(
             expect.arrayContaining([
                 {
-                    startDate: '2020-03-28',
-                    endDate: '2020-04-10',
+                    endDate: '2020-04-10T23:59:59.999+10:00',
+                    startDate: '2020-03-28T00:00:00.000+11:00',
                     totalAmount: 1110,
                 },
                 {
-                    startDate: '2020-04-11',
-                    endDate: '2020-04-24',
+                    endDate: '2020-04-24T23:59:59.999+10:00',
+                    startDate: '2020-04-11T00:00:00.000+10:00',
                     totalAmount: 1110,
                 },
                 {
-                    startDate: '2020-04-25',
-                    endDate: '2020-05-08',
+                    endDate: '2020-05-08T23:59:59.999+10:00',
+                    startDate: '2020-04-25T00:00:00.000+10:00',
                     totalAmount: 1110,
                 },
                 {
-                    startDate: '2020-05-09',
-                    endDate: '2020-05-22',
+                    endDate: '2020-05-22T23:59:59.999+10:00',
+                    startDate: '2020-05-09T00:00:00.000+10:00',
                     totalAmount: 1110,
                 },
                 {
-                    startDate: '2020-05-23',
-                    endDate: '2020-05-27',
+                    endDate: '2020-05-27T23:59:59.999+10:00',
+                    startDate: '2020-05-23T00:00:00.000+10:00',
                     totalAmount: 396.43,
                 },
             ]),
@@ -112,13 +112,13 @@ describe('ledger', () => {
         expect(ledger).toEqual(
             expect.arrayContaining([
                 {
-                    startDate: '2020-03-28',
-                    endDate: '2020-04-27',
+                    endDate: '2020-04-27T23:59:59.999+10:00',
+                    startDate: '2020-03-28T00:00:00.000+11:00',
                     totalAmount: 2411.61,
                 },
                 {
-                    startDate: '2020-04-28',
-                    endDate: '2020-05-27',
+                    endDate: '2020-05-27T23:59:59.999+10:00',
+                    startDate: '2020-04-28T00:00:00.000+10:00',
                     totalAmount: 2411.61,
                 },
             ]),

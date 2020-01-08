@@ -31,13 +31,13 @@ describe('/GET ledger', () => {
             expect(res.body).toMatchInlineSnapshot(`
                 Array [
                   Object {
-                    "endDate": "2020-04-27",
-                    "startDate": "2020-03-28",
+                    "endDate": "2020-04-27T23:59:59.999+10:00",
+                    "startDate": "2020-03-28T00:00:00.000+11:00",
                     "totalAmount": 2411.61,
                   },
                   Object {
-                    "endDate": "2020-04-30",
-                    "startDate": "2020-04-28",
+                    "endDate": "2020-04-30T23:59:59.999+10:00",
+                    "startDate": "2020-04-28T00:00:00.000+10:00",
                     "totalAmount": 237.86,
                   },
                 ]
@@ -53,18 +53,18 @@ describe('/GET ledger', () => {
             expect(res.body).toMatchInlineSnapshot(`
                 Array [
                   Object {
-                    "endDate": "2020-04-10",
-                    "startDate": "2020-03-28",
+                    "endDate": "2020-04-10T23:59:59.999+10:00",
+                    "startDate": "2020-03-28T00:00:00.000+11:00",
                     "totalAmount": 1110,
                   },
                   Object {
-                    "endDate": "2020-04-24",
-                    "startDate": "2020-04-11",
+                    "endDate": "2020-04-24T23:59:59.999+10:00",
+                    "startDate": "2020-04-11T00:00:00.000+10:00",
                     "totalAmount": 1110,
                   },
                   Object {
-                    "endDate": "2020-04-30",
-                    "startDate": "2020-04-25",
+                    "endDate": "2020-04-30T23:59:59.999+10:00",
+                    "startDate": "2020-04-25T00:00:00.000+10:00",
                     "totalAmount": 475.71,
                   },
                 ]
@@ -80,28 +80,28 @@ describe('/GET ledger', () => {
             expect(res.body).toMatchInlineSnapshot(`
                 Array [
                   Object {
-                    "endDate": "2020-04-03",
-                    "startDate": "2020-03-28",
+                    "endDate": "2020-04-03T23:59:59.999+11:00",
+                    "startDate": "2020-03-28T00:00:00.000+11:00",
                     "totalAmount": 555,
                   },
                   Object {
-                    "endDate": "2020-04-10",
-                    "startDate": "2020-04-04",
+                    "endDate": "2020-04-10T23:59:59.999+10:00",
+                    "startDate": "2020-04-04T00:00:00.000+11:00",
                     "totalAmount": 555,
                   },
                   Object {
-                    "endDate": "2020-04-17",
-                    "startDate": "2020-04-11",
+                    "endDate": "2020-04-17T23:59:59.999+10:00",
+                    "startDate": "2020-04-11T00:00:00.000+10:00",
                     "totalAmount": 555,
                   },
                   Object {
-                    "endDate": "2020-04-24",
-                    "startDate": "2020-04-18",
+                    "endDate": "2020-04-24T23:59:59.999+10:00",
+                    "startDate": "2020-04-18T00:00:00.000+10:00",
                     "totalAmount": 555,
                   },
                   Object {
-                    "endDate": "2020-04-30",
-                    "startDate": "2020-04-25",
+                    "endDate": "2020-04-30T23:59:59.999+10:00",
+                    "startDate": "2020-04-25T00:00:00.000+10:00",
                     "totalAmount": 475.71,
                   },
                 ]
