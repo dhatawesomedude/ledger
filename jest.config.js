@@ -14,6 +14,7 @@ const config = {
             isolateModules: true,
         },
     },
+    setupFilesAfterEnv: ['./setupTests.js'],
 }
 
 module.exports = config

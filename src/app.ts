@@ -1,15 +1,18 @@
 import 'reflect-metadata'
 import { createExpressServer, useContainer } from 'routing-controllers'
 import { Container } from 'typedi'
+import { Settings } from 'luxon'
 import { LedgerController } from './controllers/LedgerController'
 
 const PORT = 8080
+
+// Set the default time zone to create DateTimes in
+Settings.defaultZoneName = 'Australia/Sydney'
 
 /**
  * Setup routing-controllers to use typedi container.
  */
 useContainer(Container)
-
 /*
  * Create a new express instance
  * */
