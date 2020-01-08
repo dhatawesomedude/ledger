@@ -44,31 +44,13 @@ In addition to these 2, I've used the following libraries.
 
 ### Tests
 
-Tests are implemented in [jest](https://jestjs.io/)
+Tests are implemented in [jest](https://jestjs.io/), config file in `./jest.config.js`
 
 There are 2 tiers of tests (with some overlap).
 - API test `(controllers/__tests__)`: Which tests things to do with routing, request, response, and validation.
 - unit/Use-case/business-logic tests `(services/__tests__)` : tests for various use cases. Most of the use-cases from the spec are handled in the rent and calendar tests(`rent.test.ts` and `calendar.test.ts`) as all of the logic exists there.
 
-### This section is still being edited.
+Tests are run using Github actions. You can click on the actions tab, or checkout the workflows in the github workflows directory (`./.github/workflows`)
 
--   inline interfaces for request data interface and dto files for response interface
--   If the timezone is invalid, it defaults to UTC.
--   date manipulation done using luxon
-
-# Spec
-
--   request
-
-    -   start_date ISO String
-    -   end_date ISO String
-    -   frequency weekly | fortnightly | monthly
-    -   weekly_rent
-    -   timezone
-
--   response
-
-    -   Array of line items
-    -   start_date ISO string
-    -   end_date ISO string
-    -   amount Number
+#### Run Tests locally.
+Run `yarn test` to run tests locally.
