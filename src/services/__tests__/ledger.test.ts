@@ -3,14 +3,14 @@ import { Frequency } from '../../dto/LedgerDto'
 
 describe('ledger', () => {
     it('should have the right data for weekly', () => {
-        const { ledger } = LedgerFactory({
+        const { lineItems } = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
             frequency: Frequency.weekly,
             timezone: 'Australia/Sydney',
             weekly_rent: 555,
         })
-        expect(ledger).toEqual(
+        expect(lineItems).toEqual(
             expect.arrayContaining([
                 {
                     endDate: '2020-04-03T23:59:59.999+11:00',
@@ -62,14 +62,14 @@ describe('ledger', () => {
     })
 
     it('it should have the right data for fortnightly', () => {
-        const { ledger } = LedgerFactory({
+        const { lineItems } = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
             frequency: Frequency.fortnightly,
             timezone: 'Australia/Sydney',
             weekly_rent: 555,
         })
-        expect(ledger).toEqual(
+        expect(lineItems).toEqual(
             expect.arrayContaining([
                 {
                     endDate: '2020-04-10T23:59:59.999+10:00',
@@ -101,7 +101,7 @@ describe('ledger', () => {
     })
 
     it('it should have the right data for monthly', () => {
-        const { ledger } = LedgerFactory({
+        const { lineItems } = LedgerFactory({
             start_date: '2020-03-28',
             end_date: '2020-05-27',
             frequency: Frequency.monthly,
@@ -109,7 +109,7 @@ describe('ledger', () => {
             weekly_rent: 555,
         })
 
-        expect(ledger).toEqual(
+        expect(lineItems).toEqual(
             expect.arrayContaining([
                 {
                     endDate: '2020-04-27T23:59:59.999+10:00',

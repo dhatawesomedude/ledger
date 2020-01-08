@@ -19,7 +19,25 @@ export const LedgerFactory = ({
 }: LedgerRequestDto) => {
     const { boundaryDates } = CalendarFactory(startDate, endDate, frequency, timezone)
 
-    const createLineItemsFromDates = (ledger: LineItem[], date: string, index: number) => {
+    // the displayed start date is the beginning of the day in the property's timezone
+    const displayStartDate = (date: DateTime, zone: string): string =>
+        date
+            .setZone(zone)
+            .startOf('day')
+            .toISO()
+    // the displayed end date is the end of the day, in the property's timezone
+    const displayEndDate = (date: DateTime, zone: string): string =>
+        date
+            .setZone(zone)
+            .endOf('day')
+            .toISO()
+
+    /*
+     * create line items from boundary dates
+     * treat all boundary dates as start dates, except the last date which is the end date
+     *
+     * */
+    const createLineItemsFromDates = (ledger: LineItem[], date: string, index: number): LineItem[] => {
         // exit if last item encountered
         if (index === boundaryDates.length - 1) return ledger
 
@@ -33,26 +51,20 @@ export const LedgerFactory = ({
         return [
             ...ledger,
             {
-                startDate: start
-                    .setZone(timezone)
-                    .startOf('day')
-                    .toISO(),
-                endDate: end
-                    .setZone(timezone)
-                    .endOf('day')
-                    .toISO(),
+                startDate: displayStartDate(start, timezone),
+                endDate: displayEndDate(end, timezone),
                 totalAmount: calculateRent(start, end, getEndDay, frequency, weeklyRent),
             },
         ]
     }
 
-    const ledger = (): LineItem[] => {
+    const lineItems = (): LineItem[] => {
         return boundaryDates.reduce(createLineItemsFromDates, [])
     }
 
     return {
-        get ledger() {
-            return ledger()
+        get lineItems() {
+            return lineItems()
         },
     }
 }

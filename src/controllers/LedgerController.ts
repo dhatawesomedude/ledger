@@ -19,6 +19,6 @@ export class LedgerController {
         // eslint-disable-next-line @typescript-eslint/camelcase,camelcase
         @QueryParams() { start_date, end_date, frequency, timezone, weekly_rent }: LedgerRequestDto,
     ): LineItem[] {
-        return LedgerFactory({ start_date, end_date, frequency, timezone, weekly_rent }).ledger
+        return LedgerFactory({ start_date, end_date, frequency, timezone, weekly_rent }).lineItems
     }
 }
