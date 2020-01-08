@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { CalendarFactory } from '../Calendar'
 import { Frequency } from '../../dto/LedgerDto'
+import { getEndDay } from '../helpers/calendar'
 
 describe('calendar', () => {
     describe('boundaryDates - happy path', () => {
@@ -70,19 +71,16 @@ describe('calendar', () => {
     describe('getEndDate', () => {
         it('weekly -> should provide an end date 7 days from the start date(including the start date) when the weekly frequency is specified', () => {
             const startDate = DateTime.fromISO('2021-01-01')
-            const { getEndDay } = CalendarFactory('2021-01-01', '2021-05-01', Frequency.weekly, 'Australia/Sydney')
             const endDate = getEndDay(startDate, Frequency.weekly).toISODate()
             expect(endDate).toEqual('2021-01-07')
         })
         it('fortnightly -> should provide an end date 14 days from the start date(including the start date) when the fortnightly frequency is specified', () => {
             const startDate = DateTime.fromISO('2021-01-01')
-            const { getEndDay } = CalendarFactory('2021-01-01', '2021-05-13', Frequency.fortnightly, 'Australia/Sydney')
             const endDate = getEndDay(startDate, Frequency.fortnightly).toISODate()
             expect(endDate).toEqual('2021-01-14')
         })
         it('monthly -> should provide an end date 1 month from the start date(including the start date) when the monthly frequency is specified', () => {
             const startDate = DateTime.fromISO('2021-01-01')
-            const { getEndDay } = CalendarFactory('2021-01-01', '2021-05-13', Frequency.monthly, 'Australia/Sydney')
             const endDate = getEndDay(startDate, Frequency.monthly).toISODate()
             expect(endDate).toEqual('2021-01-31')
         })

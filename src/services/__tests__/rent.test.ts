@@ -1,18 +1,19 @@
 import { DateTime } from 'luxon'
-import { calculateRent } from '../Rent'
+import { calculateRent } from '../helpers/rent'
 import { Frequency } from '../../dto/LedgerDto'
-import { CalendarFactory, ONE_WEEK, ONE_YEAR } from '../Calendar'
+import { ONE_WEEK, ONE_YEAR } from '../Calendar'
+import { getEndDay } from '../helpers/calendar'
 
 describe('Rent', () => {
     describe('rent - happy path', () => {
         it('should call getEndDay with correct arguments', () => {
             const startDate = DateTime.fromISO('2017-02-01')
             const endDate = DateTime.fromISO('2017-02-30')
-            const getEndDay = jest.fn((a, b) => a)
+            const endDayMock = jest.fn((a, b) => a)
 
-            calculateRent(startDate, endDate, getEndDay, Frequency.weekly, 120)
+            calculateRent(startDate, endDate, endDayMock, Frequency.weekly, 120)
 
-            expect(getEndDay).toHaveBeenCalledWith(startDate, Frequency.weekly)
+            expect(endDayMock).toHaveBeenCalledWith(startDate, Frequency.weekly)
         })
 
         it('weekly -> should return rent for 7days when a weekly frequency is specified and the end Date is 7days away', () => {
@@ -38,7 +39,6 @@ describe('Rent', () => {
         it('monthly -> should return rent for 1 month when a monthly frequency is specified and the end Date is 1 month away', () => {
             const startDate = DateTime.fromISO('2020-01-02')
             const amount = 100
-            const { getEndDay } = CalendarFactory('2020-01-02', '2020-02-01', Frequency.weekly, 'Australia/Sydney')
 
             const rent = calculateRent(startDate, DateTime.fromISO('2020-02-01'), getEndDay, Frequency.monthly, amount)
 
@@ -76,7 +76,6 @@ describe('Rent', () => {
             const startDate = DateTime.fromISO('2020-01-01')
             const endDate = DateTime.fromISO('2020-01-29')
             const weeklyRent = 550
-            const { getEndDay } = CalendarFactory('2020-01-01', '2020-01-29', Frequency.weekly, 'Australia/Sydney')
 
             const rent = calculateRent(startDate, endDate, getEndDay, Frequency.monthly, weeklyRent)
 

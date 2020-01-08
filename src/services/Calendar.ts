@@ -10,7 +10,6 @@ export const ONE_YEAR = 365
 
 export interface Calendar {
     boundaryDates: string[]
-    getEndDay: (start: DateTime, freq: Frequency) => DateTime
 }
 
 export const CalendarFactory = (
@@ -83,21 +82,9 @@ export const CalendarFactory = (
         return ruleSet.all().map(date => DateTime.fromJSDate(date).toISODate())
     }
 
-    const getEndDay = (start: DateTime, freq: Frequency) => {
-        switch (freq) {
-            case Frequency.fortnightly:
-                return start.plus({ days: TWO_WEEKS - ONE_DAY })
-            case Frequency.weekly:
-                return start.plus({ days: ONE_WEEK - ONE_DAY })
-            case Frequency.monthly:
-                return start.plus({ months: 1 }).minus({ days: ONE_DAY })
-        }
-    }
-
     return {
         get boundaryDates() {
             return getBoundaryDates()
         },
-        getEndDay,
     }
 }

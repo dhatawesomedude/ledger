@@ -1,12 +1,13 @@
 import { DateTime, Interval } from 'luxon'
-import { Frequency } from '../dto/LedgerDto'
-import { Calendar, ONE_WEEK, ONE_YEAR, TWO_WEEKS } from './Calendar'
+import { Frequency } from '../../dto/LedgerDto'
+import { ONE_WEEK, ONE_YEAR, TWO_WEEKS } from '../Calendar'
+import { GetEndDay } from './calendar'
 
 // Calculates rental amount for a given period (rounded to 2 decimal places).
 export const calculateRent = (
     start: DateTime,
     end: DateTime,
-    getEndDay: Calendar['getEndDay'],
+    getEndDay: GetEndDay,
     frequency: Frequency,
     weeklyRent: number,
 ) => {

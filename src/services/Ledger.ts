@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import { LedgerRequestDto } from '../dto/LedgerDto'
-import { calculateRent } from './Rent'
+import { calculateRent } from './helpers/rent'
 import { CalendarFactory } from './Calendar'
+import { getEndDay } from './helpers/calendar'
 
 export interface LineItem {
     startDate: string
@@ -16,7 +17,7 @@ export const LedgerFactory = ({
     timezone,
     weekly_rent: weeklyRent,
 }: LedgerRequestDto) => {
-    const { boundaryDates, getEndDay } = CalendarFactory(startDate, endDate, frequency, timezone)
+    const { boundaryDates } = CalendarFactory(startDate, endDate, frequency, timezone)
 
     const createLineItemsFromDates = (ledger: LineItem[], date: string, index: number) => {
         // exit if last item encountered
