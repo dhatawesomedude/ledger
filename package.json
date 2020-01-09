@@ -2,7 +2,7 @@
   "name": "ledger",
   "version": "1.0.0",
   "description": "",
-  "main": "main.ts",
+  "main": "app.ts",
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly --inspect -- src/app.ts",
     "test": "yarn jest",
