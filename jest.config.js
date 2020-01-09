@@ -15,6 +15,7 @@ const config = {
         },
     },
     setupFilesAfterEnv: ['./setupTests.js'],
+    testEnvironment: 'node',
 }
 
 module.exports = config

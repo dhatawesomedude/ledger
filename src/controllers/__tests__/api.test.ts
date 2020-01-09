@@ -17,6 +17,9 @@ const getRequestURL = (requestObject: LedgerRequestDto) => {
 }
 
 describe('/GET ledger', () => {
+    afterAll(done => {
+        done()
+    })
     describe('returns list of line items', () => {
         const requestObject = {
             ...ledgerRequest,
