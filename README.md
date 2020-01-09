@@ -1,6 +1,6 @@
 ## ledger
 
-Express-js application that generates ledgers for leases.
+Express-js application that generates ledgers for leases
 
 ## Requirements
 
